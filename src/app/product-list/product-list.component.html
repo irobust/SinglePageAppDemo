@@ -5,7 +5,7 @@
   <div class='panel-body'>
       <div class='table-responsive'>
           <table class='table'
-                  *ngIf='products && products.length'>
+                  >
               <thead>
                   <tr>
                       <th>Product</th>
@@ -15,7 +15,7 @@
                   </tr>
               </thead>
               <tbody>
-                  <tr *ngFor='let product of products'>
+                  <tr *ngFor='let product of asyncProducts | async'>
                       <td>{{ product.productName }}</td>
                       <td>{{ product.productCode }}</td>
                       <td>{{ product.releaseDate }}</td>

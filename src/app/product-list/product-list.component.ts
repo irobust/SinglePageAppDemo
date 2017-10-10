@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 import { ProductService } from '../product.service';
 
@@ -10,14 +11,14 @@ import { ProductService } from '../product.service';
 })
 export class ProductListComponent implements OnInit {
   private products: Object[] = [];
+  private asyncProducts: Observable<Object[]>;
 
   constructor(private _productService: ProductService) { }
 
   ngOnInit() {
-    this._productService.getProducts()
-    .subscribe(products => {
-        this.products = products;
-        console.log(products);
-    }, error => { console.log('Error!') });
+    this.asyncProducts = this._productService.getProducts();
+    // .subscribe(products => {
+    //     this.products = products;
+    // }, error => { console.log('Error!') });
   }
 }
