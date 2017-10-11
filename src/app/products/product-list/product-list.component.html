@@ -1,22 +1,23 @@
 <div class='panel panel-primary'>
   <div class='panel-heading'>
-      Product List
+      Product List {{ ratingResult }}
   </div>
   <div class='panel-body'>
       <div class='table-responsive'>
           <input type="text" [(ngModel)]='txtFilter'>
           <table class='table'
-                  >
+                  *ngIf='products && products.length'>
               <thead>
                   <tr>
                       <th>Product</th>
                       <th>Code</th>
                       <th>Available</th>
                       <th>Price</th>
+                      <th>Rating</th>
                   </tr>
               </thead>
               <tbody>
-                  <tr *ngFor='let product of asyncProducts | async | productFilter : txtFilter'>
+                  <tr *ngFor='let product of products | productFilter: txtFilter'>
                       <td>
                         <a [routerLink]="['/product', product.productId]">
                         {{ product.productName }}
@@ -25,12 +26,21 @@
                       <td>{{ product.productCode }}</td>
                       <td>{{ product.releaseDate }}</td>
                       <td>{{ product.price}}</td>
+                      <td>
+                          <pm-star [rating]='product.starRating'
+                                   (ratingClicked)='doRatingClicked($event)'></pm-star>
+                      </td>
+                      <td>
+                        <button (click)='doRemove(product.productId)'>
+                          Delete
+                        </button>
+                      </td>
                   </tr>
               </tbody>
           </table>
       </div>
   </div>
 </div>
-<div *ngIf='!asyncProducts || !asyncProducts.length' class='alert alert-danger'>
+<div *ngIf='!products || !products.length' class='alert alert-danger'>
   No data found
 </div>

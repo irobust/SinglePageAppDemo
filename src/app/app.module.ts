@@ -1,33 +1,30 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { ProductListComponent } from './product-list/product-list.component';
-import { ProductService } from './product.service';
 import { routes } from './routes';
 import { WelcomeComponent } from './home/welcome.component';
-import { ProductDetailComponent } from './product-detail/product-detail.component';
-import { ProductDetailGuardService } from './product-detail-guard.service';
-import { ProductPipe } from './product.pipe';
+import { ProductModule } from './products/product.module';
+import { AuthInterceptorService } from './auth-interceptor.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProductListComponent,
-    WelcomeComponent,
-    ProductDetailComponent,
-    ProductPipe
+    WelcomeComponent
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
-    FormsModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    ProductModule
   ],
-  providers: [HttpClient, ProductService, ProductDetailGuardService],
+  providers: [HttpClient, 
+              { provide: HTTP_INTERCEPTORS, 
+                useClass: AuthInterceptorService,
+               multi: true} 
+            ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
