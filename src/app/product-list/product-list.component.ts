@@ -12,6 +12,7 @@ import { ProductService } from '../product.service';
 export class ProductListComponent implements OnInit {
   private products: Object[] = [];
   private asyncProducts: Observable<Object[]>;
+  private txtFilter: string;
 
   constructor(private _productService: ProductService) { }
 

@@ -4,6 +4,7 @@
   </div>
   <div class='panel-body'>
       <div class='table-responsive'>
+          <input type="text" [(ngModel)]='txtFilter'>
           <table class='table'
                   >
               <thead>
@@ -15,8 +16,12 @@
                   </tr>
               </thead>
               <tbody>
-                  <tr *ngFor='let product of asyncProducts | async'>
-                      <td>{{ product.productName }}</td>
+                  <tr *ngFor='let product of asyncProducts | async | productFilter : txtFilter'>
+                      <td>
+                        <a [routerLink]="['/product', product.productId]">
+                        {{ product.productName }}
+                        </a>
+                      </td>
                       <td>{{ product.productCode }}</td>
                       <td>{{ product.releaseDate }}</td>
                       <td>{{ product.price}}</td>
@@ -26,6 +31,6 @@
       </div>
   </div>
 </div>
-<div *ngIf='!products || !products.length' class='alert alert-danger'>
+<div *ngIf='!asyncProducts || !asyncProducts.length' class='alert alert-danger'>
   No data found
 </div>
